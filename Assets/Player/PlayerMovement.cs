@@ -9,6 +9,7 @@ public class PlayerMovement : MonoBehaviour
     CameraRaycaster cameraRaycaster;
     Vector3 currentClickTarget;
         
+	[SerializeField] float walkMoveStopRadius = 0.2f;
     private void Start()
     {
         cameraRaycaster = Camera.main.GetComponent<CameraRaycaster>();
@@ -21,7 +22,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Input.GetMouseButton(0))
         {
-            print("Cursor raycast hit" + cameraRaycaster.hit.collider.gameObject.name.ToString());
+            print("Cursor raycast hit " + cameraRaycaster.hit.collider.gameObject.name.ToString());
 			switch (cameraRaycaster.layerHit) {
 			case Layer.Walkable:
 				currentClickTarget = cameraRaycaster.hit.point;
@@ -37,7 +38,14 @@ public class PlayerMovement : MonoBehaviour
               // So not set in default case
 
         }
-		m_Character.Move(currentClickTarget - transform.position, false, false);
+		var playerToClickPoint = currentClickTarget - transform.position;
+		print (currentClickTarget);
+		if (playerToClickPoint.magnitude >= walkMoveStopRadius) {
+			m_Character.Move (playerToClickPoint, false, false);
+		} else {
+			m_Character.Move(Vector3.zero, false, false);
+		}
+
     }
 }
 
