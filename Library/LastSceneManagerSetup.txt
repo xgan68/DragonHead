@@ -1,1 +1,4 @@
-sceneSetups: []
+sceneSetups:
+- path: Assets/Ricks Village.unity
+  isLoaded: 0
+  isActive: 0
